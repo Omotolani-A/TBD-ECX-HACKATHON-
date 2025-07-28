@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
+import generateToken from '../utils/generateToken.js';
 
 // Register user
 export const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, phone, nin, password } = req.body;
 
   try {
     // Check if user exists
@@ -21,21 +21,22 @@ export const registerUser = async (req, res) => {
     const user = await User.create({
       name,
       email,
+      phone,
+      nin,
       password: hashedPassword,
+      role: 'user',
     });
 
-    // Create JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '7d',
-    });
-
+   
     res.status(201).json({
       message: 'User registered successfully',
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
-        token,
+        phone: user.phone,
+        role: user.role,
+        token: generateToken(user._id),
       },
     });
   } catch (error) {
@@ -56,10 +57,6 @@ export const loginUser = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    // Create JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '7d',
-    });
 
     res.status(200).json({
       message: 'Login successful',
@@ -67,7 +64,9 @@ export const loginUser = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        token,
+        phone: user.phone,
+        role: user.role,
+        token: generateToken(user._id),
       },
     });
   } catch (error) {
