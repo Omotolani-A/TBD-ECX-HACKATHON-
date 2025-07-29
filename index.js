@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
+import insuranceRoutes from './routes/insuranceRoutes.js';
+
 
 dotenv.config();
 const app = express();
@@ -18,6 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('/api/insurance', insuranceRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
