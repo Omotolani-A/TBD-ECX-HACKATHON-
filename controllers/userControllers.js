@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import User from '../models/user.js';
 import generateToken from '../utils/generateToken.js';
+import Plan from '../models/purchaseModels.js'; 
 
 // Register user
 export const registerUser = async (req, res) => {
@@ -123,5 +124,14 @@ export const updateUserProfile = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+export const getUserPlans = async (req, res) => {
+  try {
+    const plans = await Plan.find({ user: req.user._id });
+    res.status(200).json(plans);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch plans', error: error.message });
   }
 };
