@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import insuranceRoutes from './routes/insuranceRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', userRoutes);
 app.use('/api/insurance', insuranceRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
