@@ -4,6 +4,8 @@ import generateToken from '../utils/generateToken.js';
 import Purchase from '../models/purchaseModels.js'; 
 import InsurancePlan from '../models/insurancePlanModels.js';
 import Claims from '../models/claimModels.js';
+import sendEmail from '../utils/sendEmail.js';
+
 // Register user
 export const registerUser = async (req, res) => {
   const { name, email, phone, nin, password } = req.body;
@@ -29,7 +31,12 @@ export const registerUser = async (req, res) => {
       role: 'user',
     });
 
-   
+   await sendEmail(
+  user.email,
+  'Welcome to Claimr ',
+  `<h3>Hello ${user.name},</h3><p>Thanks for registering with Claimr. You can now access bite-sized insurance tailored for you!</p>`
+);
+
     res.status(201).json({
       message: 'User registered successfully',
       user: {
@@ -154,6 +161,12 @@ export const purchasePlan = async (req, res) => {
       user: req.user._id,
       plan: planId,
     });
+
+    await sendEmail(
+  req.user.email,
+  'Claimr Policy Purchase Receipt',
+  `<h4>Hi ${req.user.name},</h4><p>Your insurance plan <b>${plan.name}</b> has been purchased successfully for ₦${plan.premium}. Stay protected!</p>`
+);
 
     res.status(201).json({
       message: 'Plan purchased successfully',
