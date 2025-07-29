@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser, loginUser, getUserProfile, updateUserProfile, getUserPlans } from '../controllers/userControllers.js';
+import { registerUser, loginUser, getUserProfile, updateUserProfile, getUserPlans, purchasePlan } from '../controllers/userControllers.js';
 import protect from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -12,5 +12,8 @@ router.get('/profile', protect, getUserProfile);
 
 router.put('/profile', protect, updateUserProfile);
 
- router.get('/my-plans', protect, getUserPlans);
+router.get('/my-plans', protect, getUserPlans);
+
+router.post('/purchase', protect, purchasePlan);
+
 export default router;
