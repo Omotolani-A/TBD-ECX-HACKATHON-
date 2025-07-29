@@ -3,7 +3,7 @@ import User from '../models/user.js';
 import generateToken from '../utils/generateToken.js';
 import Purchase from '../models/purchaseModels.js'; 
 import InsurancePlan from '../models/insurancePlanModels.js';
-
+import Claims from '../models/claimModels.js';
 // Register user
 export const registerUser = async (req, res) => {
   const { name, email, phone, nin, password } = req.body;
@@ -161,5 +161,41 @@ export const purchasePlan = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: 'Failed to purchase plan', error: error.message });
+  }
+};
+
+
+// Submit a Claim
+export const submitClaim = async (req, res) => {
+  const { purchaseId, description } = req.body;
+
+  try {
+    // Check if the purchase exists and belongs to the user
+    const purchase = await Purchase.findOne({ _id: purchaseId, user: req.user._id });
+    if (!purchase) {
+      return res.status(404).json({ message: 'Purchase not found' });
+    }
+
+    const claim = await Claim.create({
+      user: req.user._id,
+      purchase: purchaseId,
+      description,
+    });
+    res.status(201).json({
+      message: 'Claim submitted successfully',
+      claim,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to submit claim', error: error.message });
+  }
+};
+
+// Get All Claims for User
+export const getUserClaims = async (req, res) => {
+  try {
+    const claims = await Claim.find({ user: req.user._id }).populate('purchase');
+    res.status(200).json(claims);
+  } catch (error) {
+     res.status(500).json({ message: 'Failed to fetch claims', error: error.message });
   }
 };
