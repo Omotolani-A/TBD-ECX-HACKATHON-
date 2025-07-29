@@ -157,7 +157,14 @@ export const purchasePlan = async (req, res) => {
 
     res.status(201).json({
       message: 'Plan purchased successfully',
-      purchase: newPurchase,
+    receipt: {
+        purchaseId: purchase._id,
+        planName: plan.name,
+        premium: plan.premium,
+        duration: plan.duration,
+        coverage: plan.coverage,
+        purchasedAt: purchase.purchasedAt,
+    },
     });
   } catch (error) {
     res.status(500).json({ message: 'Failed to purchase plan', error: error.message });
