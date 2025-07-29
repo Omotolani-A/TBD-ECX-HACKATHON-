@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import User from '../models/user.js';
 import generateToken from '../utils/generateToken.js';
 import Purchase from '../models/purchaseModels.js'; 
+import InsurancePlan from '../models/insurancePlanModels.js';
 
 // Register user
 export const registerUser = async (req, res) => {
@@ -133,5 +134,32 @@ export const getUserPlans = async (req, res) => {
     res.status(200).json(plans);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch plans', error: error.message });
+  }
+};
+
+
+// Purchase Insurance Plan
+export const purchasePlan = async (req, res) => {
+  const { planId } = req.body;
+
+  try {
+    // Check if the plan exists
+    const plan = await InsurancePlan.findById(planId);
+    if (!plan) {
+      return res.status(404).json({ message: 'Insurance plan not found' });
+    }
+
+    // Create a new purchase
+    const newPurchase = await Purchase.create({
+      user: req.user._id,
+      plan: planId,
+    });
+
+    res.status(201).json({
+      message: 'Plan purchased successfully',
+      purchase: newPurchase,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to purchase plan', error: error.message });
   }
 };
