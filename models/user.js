@@ -28,7 +28,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['user', 'agent', 'admin'],
     default: 'user',
-  }
+  
+},
+otp: String,
+otpExpires: Date,
+isVerified: {type: Boolean, default: false},
 }, {
   timestamps: true,
 });

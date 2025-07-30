@@ -5,6 +5,7 @@ import Purchase from '../models/purchaseModels.js';
 import InsurancePlan from '../models/insurancePlanModels.js';
 import Claims from '../models/claimModels.js';
 import sendEmail from '../utils/sendEmail.js';
+import axios from 'axios';
 
 // Register user
 export const registerUser = async (req, res) => {
@@ -217,5 +218,60 @@ export const getUserClaims = async (req, res) => {
     res.status(200).json(claims);
   } catch (error) {
      res.status(500).json({ message: 'Failed to fetch claims', error: error.message });
+  }
+};
+
+// Generate and send OTP
+export const sendOTP = async (req, res) => {
+  const { phone } = req.body;
+
+  if (!phone) return res.status(400).json({ message: 'Phone number is required' });
+
+  const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
+  const expiry = Date.now() + 10 * 60 * 1000; // Expires in 10 mins
+
+  try {
+    // Save OTP in the DB (you can create a simple OTP model or add it to the User model temporarily)
+    await User.findOneAndUpdate(
+      { phone },
+      { otp, otpExpires: expiry },
+      { upsert: true, new: true }
+    );
+ // Send OTP via Termii
+    const response = await axios.post('https://api.ng.termii.com/api/sms/send', {
+      to: phone,
+      from: 'N-Alert', // or your approved sender ID
+      sms: `${otp} is your Claimr verification code. It will expire in 10 minutes.`,
+      type: 'plain',
+      api_key: process.env.TERMII_API_KEY,
+      channel: 'generic',
+    });
+
+    res.status(200).json({ message: 'OTP sent successfully', data: response.data });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to send OTP', error: error.message });
+  }
+};
+
+export const verifyOTP = async (req, res) => {
+  const { phone, otp } = req.body;
+
+  if (!phone || !otp) return res.status(400).json({ message: 'Phone and OTP are required' });
+
+  try {
+    const user = await User.findOne({ phone });
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (user.otp !== otp) return res.status(400).json({ message: 'Invalid OTP' });
+    if (Date.now() > user.otpExpires) return res.status(400).json({ message: 'OTP expired' });
+
+    user.isVerified = true;
+    user.otp = undefined;
+    user.otpExpires = undefined;
+    await user.save();
+
+    res.status(200).json({ message: 'Phone number verified successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to verify OTP', error: error.message });
   }
 };
