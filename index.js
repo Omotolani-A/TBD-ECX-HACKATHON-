@@ -12,6 +12,17 @@ const app = express();
 // Middleware
 app.use(express.json());
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// For ES modules, __dirname workaround
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 // Connect to DB
 connectDB();
 
