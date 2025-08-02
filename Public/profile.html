@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>User Profile - Claimer</title>
+    <link rel="stylesheet" href="../css/user.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Claimer</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="browse.html">Browse Plans</a></li>
+                    <li><a href="policies.html">My Policies</a></li>
+                    <li><a href="claims.html">My Claims</a></li>
+                    <li><a href="payment.html">Payments</a></li>
+                    <li class="active"><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+            <button class="logout-btn">Logout</button>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>User Profile</h1>
+                <div class="user-info">
+                    <span>Welcome, <strong>John Doe</strong></span>
+                </div>
+            </header>
+
+            <section class="profile-details">
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" value="John Doe" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" value="john.doe@example.com" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" value="+1 555-123-4567" />
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <textarea id="address" rows="3">123 Main St, Springfield, USA</textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/user.js"></script>
+</body>
+</html>

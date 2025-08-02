@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .dashboard-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .dashboard-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .dashboard-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-btn.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e9ecef;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th,
+        .table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-approved {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .policy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .policy-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid #f0f0f0;
+        }
+
+        .policy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .policy-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .policy-price {
+            font-size: 2em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .policy-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .policy-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #666;
+        }
+
+        .policy-features li:before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-selector {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 20px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-selector">
+        <button class="dashboard-btn active" onclick="showDashboard('company')">Company Dashboard</button>
+        <button class="dashboard-btn" onclick="showDashboard('user')">User Dashboard</button>
+    </div>
+
+    <!-- Company Dashboard -->
+    <div id="company-dashboard" class="dashboard active">
+        <div class="header">
+            <h1>Insurance Company Dashboard</h1>
+            <p>Manage your insurance plans, clients, and claims efficiently</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">1,247</div>
+                <div>Active Policies</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">43</div>
+                <div>Pending Claims</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div>Insurance Plans</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$2.4M</div>
+                <div>Monthly Revenue</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Policy Holders</h2>
+                    <input type="text" class="search-box" placeholder="Search policy holders..." id="clientSearch">
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Policy Type</th>
+                            <th>Status</th>
+                            <th>Premium</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientTable">
+                        <tr>
+                            <td>John Smith</td>
+                            <td>Health Insurance</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>$450/month</td>
+                        </tr>
+                        <tr>
+                            <td>Sarah Johnson</td>
+                            <td>Auto Insurance</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>$280/month</td>
+                        </tr>
+                        <tr>
+                            <td>Michael Brown</td>
+                            <td>Life Insurance</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                            <td>$120/month</td>
+                        </tr>
+                        <tr>
+                            <td>Emily Davis</td>
+                            <td>Home Insurance</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>$350/month</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Claims Management</h2>
+                    <input type="text" class="search-box" placeholder="Search claims..." id="claimSearch">
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Claimant</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="claimTable">
+                        <tr>
+                            <td>John Smith</td>
+                            <td>Medical</td>
+                            <td>$2,500</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>Sarah Johnson</td>
+                            <td>Auto Accident</td>
+                            <td>$8,200</td>
+                            <td><span class="status-badge status-approved">Approved</span></td>
+                        </tr>
+                        <tr>
+                            <td>Robert Wilson</td>
+                            <td>Property Damage</td>
+                            <td>$15,000</td>
+                            <td><span class="status-badge status-pending">Under Review</span></td>
+                        </tr>
+                        <tr>
+                            <td>Lisa Anderson</td>
+                            <td>Medical</td>
+                            <td>$1,800</td>
+                            <td><span class="status-badge status-approved">Approved</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Insurance Plans Management</h2>
+                <button class="btn btn-primary" onclick="openCreatePlanModal()">Create New Plan</button>
+            </div>
+            <div class="policy-grid">
+                <div class="policy-card">
+                    <div class="policy-title">Basic Health</div>
+                    <div class="policy-price">$299/month</div>
+                    <ul class="policy-features">
+                        <li>Basic medical coverage</li>
+                        <li>Emergency services</li>
+                        <li>Prescription drugs</li>
+                        <li>Annual check-ups</li>
+                    </ul>
+                    <button class="btn btn-secondary">Edit Plan</button>
+                </div>
+                <div class="policy-card">
+                    <div class="policy-title">Premium Auto</div>
+                    <div class="policy-price">$189/month</div>
+                    <ul class="policy-features">
+                        <li>Full collision coverage</li>
+                        <li>Comprehensive protection</li>
+                        <li>Roadside assistance</li>
+                        <li>Rental car coverage</li>
+                    </ul>
+                    <button class="btn btn-secondary">Edit Plan</button>
+                </div>
+                <div class="policy-card">
+                    <div class="policy-title">Life Protection</div>
+                    <div class="policy-price">$89/month</div>
+                    <ul class="policy-features">
+                        <li>$500K life coverage</li>
+                        <li>Accidental death benefit</li>
+                        <li>Terminal illness rider</li>
+                        <li>Flexible premiums</li>
+                    </ul>
+                    <button class="btn btn-secondary">Edit Plan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Dashboard -->
+    <div id="user-dashboard" class="dashboard">
+        <div class="header">
+            <h1>Insurance Portal</h1>
+            <p>Find and manage your perfect insurance coverage</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div>Active Policies</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div>Pending Claims</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$847</div>
+                <div>Monthly Premium</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24</div>
+                <div>Available Plans</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Available Insurance Policies</h2>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <select class="form-control" id="policyFilter" style="width: auto;">
+                        <option value="">All Categories</option>
+                        <option value="health">Health Insurance</option>
+                        <option value="auto">Auto Insurance</option>
+                        <option value="life">Life Insurance</option>
+                        <option value="home">Home Insurance</option>
+                    </select>
+                    <input type="text" class="search-box" placeholder="Search policies..." id="policySearch" style="margin: 0; width: 300px;">
+                </div>
+            </div>
+            
+            <div class="policy-grid" id="availablePolicies">
+                <div class="policy-card" data-category="health">
+                    <div class="policy-title">Comprehensive Health Plus</div>
+                    <div class="policy-price">$449/month</div>
+                    <ul class="policy-features">
+                        <li>Complete medical coverage</li>
+                        <li>Specialist consultations</li>
+                        <li>Prescription coverage</li>
+                        <li>Mental health services</li>
+                        <li>Dental and vision included</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectPolicy('Comprehensive Health Plus')">Select Plan</button>
+                </div>
+                
+                <div class="policy-card" data-category="health">
+                    <div class="policy-title">Basic Health</div>
+                    <div class="policy-price">$299/month</div>
+                    <ul class="policy-features">
+                        <li>Basic medical coverage</li>
+                        <li>Emergency services</li>
+                        <li>Prescription drugs</li>
+                        <li>Annual check-ups</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectPolicy('Basic Health')">Select Plan</button>
+                </div>
+                
+                <div class="policy-card" data-category="auto">
+                    <div class="policy-title">Premium Auto Coverage</div>
+                    <div class="policy-price">$189/month</div>
+                    <ul class="policy-features">
+                        <li>Full collision coverage</li>
+                        <li>Comprehensive protection</li>
+                        <li>Roadside assistance</li>
+                        <li>Rental car coverage</li>
+                        <li>Glass replacement</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectPolicy('Premium Auto Coverage')">Select Plan</button>
+                </div>
+                
+                <div class="policy-card" data-category="auto">
+                    <div class="policy-title">Basic Auto</div>
+                    <div class="policy-price">$129/month</div>
+                    <ul class="policy-features">
+                        <li>Liability coverage</li>
+                        <li>Basic collision</li>
+                        <li>Uninsured motorist</li>
+                        <li>24/7 claims support</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectPolicy('Basic Auto')">Select Plan</button>
+                </div>
+                
+                <div class="policy-card" data-category="life">
+                    <div class="policy-title">Life Protection Plus</div>
+                    <div class="policy-price">$159/month</div>
+                    <ul class="policy-features">
+                        <li>$1M life coverage</li>
+                        <li>Accidental death benefit</li>
+                        <li>Terminal illness rider</li>
+                        <li>Cash value accumulation</li>
+                        <li>Flexible premiums</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectPolicy('Life Protection Plus')">Select Plan</button>
+                </div>
+                
+                <div class="policy-card" data-category="life">
+                    <div class="policy-title">Term Life Basic</div>
+                    <div class="policy-price">$89/month</div>
+                    <ul class="policy-features">
+                        <li>$500K life coverage</li>
+                        <li>20-year term</li>
+                        <li>Convertible option</li>
+                        <li>No medical exam required</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectPolicy('Term Life Basic')">Select Plan</button>
+                </div>
+                
+                <div class="policy-card" data-category="home">
+                    <div class="policy-title">Homeowner's Deluxe</div>
+                    <div class="policy-price">$399/month</div>
+                    <ul class="policy-features">
+                        <li>Full property coverage</li>
+                        <li>Personal belongings</li>
+                        <li>Liability protection</li>
+                        <li>Natural disaster coverage</li>
+                        <li>Temporary living expenses</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectPolicy('Homeowner\'s Deluxe')">Select Plan</button>
+                </div>
+                
+                <div class="policy-card" data-category="home">
+                    <div class="policy-title">Renter's Protection</div>
+                    <div class="policy-price">$99/month</div>
+                    <ul class="policy-features">
+                        <li>Personal property coverage</li>
+                        <li>Liability protection</li>
+                        <li>Additional living expenses</li>
+                        <li>Guest medical coverage</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectPolicy('Renter\'s Protection')">Select Plan</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">My Policies</h2>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Policy Name</th>
+                            <th>Type</th>
+                            <th>Premium</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Comprehensive Health Plus</td>
+                            <td>Health</td>
+                            <td>$449/month</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td><button class="btn btn-secondary">View Details</button></td>
+                        </tr>
+                        <tr>
+                            <td>Premium Auto Coverage</td>
+                            <td>Auto</td>
+                            <td>$189/month</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td><button class="btn btn-secondary">View Details</button></td>
+                        </tr>
+                        <tr>
+                            <td>Life Protection Plus</td>
+                            <td>Life</td>
+                            <td>$159/month</td>
+                            <td><span class="status-badge status-pending">Pending Approval</span></td>
+                            <td><button class="btn btn-secondary">View Details</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">My Claims</h2>
+                    <button class="btn btn-primary" onclick="openClaimModal()">File New Claim</button>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Claim ID</th>
+                            <th>Policy</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date Filed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#CLM-001234</td>
+                            <td>Health Insurance</td>
+                            <td>$2,500</td>
+                            <td><span class="status-badge status-pending">Under Review</span></td>
+                            <td>Jan 15, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>#CLM-001189</td>
+                            <td>Auto Insurance</td>
+                            <td>$1,200</td>
+                            <td><span class="status-badge status-approved">Approved</span></td>
+                            <td>Dec 28, 2024</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Plan Modal -->
+    <div id="createPlanModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCreatePlanModal()">&times;</span>
+            <h2 style="margin-bottom: 20px;">Create New Insurance Plan</h2>
+            <form id="createPlanForm">
+                <div class="form-group">
+                    <label for="claimAmount">Claim Amount ($)</label>
+                    <input type="number" id="claimAmount" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="incidentDate">Date of Incident</label>
+                    <input type="date" id="incidentDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="claimDescription">Description</label>
+                    <textarea id="claimDescription" class="form-control" rows="4" placeholder="Describe the incident and damages..." required></textarea>
+                </div>
+                <div style="text-align: right; margin-top: 30px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeClaimModal()" style="margin-right: 10px;">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Claim</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Dashboard switching functionality
+        function showDashboard(type) {
+            const dashboards = document.querySelectorAll('.dashboard');
+            const buttons = document.querySelectorAll('.dashboard-btn');
+            
+            dashboards.forEach(d => d.classList.remove('active'));
+            buttons.forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(type + '-dashboard').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Search functionality for company dashboard
+        document.getElementById('clientSearch').addEventListener('input', function(e) {
+            filterTable('clientTable', e.target.value);
+        });
+
+        document.getElementById('claimSearch').addEventListener('input', function(e) {
+            filterTable('claimTable', e.target.value);
+        });
+
+        function filterTable(tableId, searchTerm) {
+            const table = document.getElementById(tableId);
+            const rows = table.getElementsByTagName('tr');
+            
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const cells = row.getElementsByTagName('td');
+                let found = false;
+                
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].textContent.toLowerCase().includes(searchTerm.toLowerCase())) {
+                        found = true;
+                        break;
+                    }
+                }
+                
+                row.style.display = found ? '' : 'none';
+            }
+        }
+
+        // Policy search and filter functionality for user dashboard
+        document.getElementById('policySearch').addEventListener('input', function(e) {
+            filterPolicies();
+        });
+
+        document.getElementById('policyFilter').addEventListener('change', function(e) {
+            filterPolicies();
+        });
+
+        function filterPolicies() {
+            const searchTerm = document.getElementById('policySearch').value.toLowerCase();
+            const filterCategory = document.getElementById('policyFilter').value;
+            const policies = document.querySelectorAll('.policy-card');
+            
+            policies.forEach(policy => {
+                const title = policy.querySelector('.policy-title').textContent.toLowerCase();
+                const features = policy.querySelector('.policy-features').textContent.toLowerCase();
+                const category = policy.getAttribute('data-category');
+                
+                const matchesSearch = title.includes(searchTerm) || features.includes(searchTerm);
+                const matchesCategory = !filterCategory || category === filterCategory;
+                
+                policy.style.display = (matchesSearch && matchesCategory) ? 'block' : 'none';
+            });
+        }
+
+        // Modal functionality
+        function openCreatePlanModal() {
+            document.getElementById('createPlanModal').style.display = 'block';
+        }
+
+        function closeCreatePlanModal() {
+            document.getElementById('createPlanModal').style.display = 'none';
+            document.getElementById('createPlanForm').reset();
+        }
+
+        function openClaimModal() {
+            document.getElementById('claimModal').style.display = 'block';
+        }
+
+        function closeClaimModal() {
+            document.getElementById('claimModal').style.display = 'none';
+            document.getElementById('claimForm').reset();
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const createModal = document.getElementById('createPlanModal');
+            const claimModal = document.getElementById('claimModal');
+            
+            if (event.target == createModal) {
+                closeCreatePlanModal();
+            }
+            if (event.target == claimModal) {
+                closeClaimModal();
+            }
+        }
+
+        // Form submission handlers
+        document.getElementById('createPlanForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const planName = document.getElementById('planName').value;
+            const planType = document.getElementById('planType').value;
+            const premium = document.getElementById('monthlyPremium').value;
+            const coverage = document.getElementById('coverage').value;
+            const deductible = document.getElementById('deductible').value;
+            
+            // Simulate plan creation
+            alert(`New plan "${planName}" created successfully!\nType: ${planType}\nPremium: ${premium}/month`);
+            closeCreatePlanModal();
+            
+            // In a real application, this would send data to the server
+            console.log('New plan created:', {
+                name: planName,
+                type: planType,
+                premium: premium,
+                coverage: coverage,
+                deductible: deductible
+            });
+        });
+
+        document.getElementById('claimForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const policy = document.getElementById('claimPolicy').value;
+            const type = document.getElementById('claimType').value;
+            const amount = document.getElementById('claimAmount').value;
+            const date = document.getElementById('incidentDate').value;
+            const description = document.getElementById('claimDescription').value;
+            
+            // Generate claim ID
+            const claimId = '#CLM-' + Math.floor(Math.random() * 900000 + 100000);
+            
+            // Simulate claim submission
+            alert(`Claim submitted successfully!\nClaim ID: ${claimId}\nAmount: ${amount}\nStatus: Under Review`);
+            closeClaimModal();
+            
+            // In a real application, this would send data to the server
+            console.log('New claim submitted:', {
+                id: claimId,
+                policy: policy,
+                type: type,
+                amount: amount,
+                date: date,
+                description: description
+            });
+        });
+
+        // Policy selection functionality
+        function selectPolicy(policyName) {
+            const confirmation = confirm(`Are you sure you want to apply for "${policyName}"?`);
+            if (confirmation) {
+                alert(`Application for "${policyName}" submitted successfully!\nYou will receive a confirmation email shortly.`);
+                
+                // In a real application, this would redirect to application form or process
+                console.log('Policy selected:', policyName);
+            }
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate stat cards on load
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'all 0.6s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 150);
+            });
+
+            // Add hover effects to table rows
+            const tableRows = document.querySelectorAll('.table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.02)';
+                    this.style.transition = 'transform 0.2s ease';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // Add floating animation to policy cards
+            const policyCards = document.querySelectorAll('.policy-card');
+            policyCards.forEach((card, index) => {
+                setInterval(() => {
+                    card.style.transform = `translateY(${Math.sin(Date.now() * 0.001 + index) * 3}px)`;
+                }, 50);
+            });
+        });
+
+        // Real-time data updates simulation
+        function updateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                if (!stat.textContent.includes(' for="planName">Plan Name</label>
+                    <input type="text" id="planName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="planType">Plan Type</label>
+                    <select id="planType" class="form-control" required>
+                        <option value="">Select Type</option>
+                        <option value="health">Health Insurance</option>
+                        <option value="auto">Auto Insurance</option>
+                        <option value="life">Life Insurance</option>
+                        <option value="home">Home Insurance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="monthlyPremium">Monthly Premium ($)</label>
+                    <input type="number" id="monthlyPremium" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="coverage">Coverage Details</label>
+                    <textarea id="coverage" class="form-control" rows="4" placeholder="Describe the coverage details..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="deductible">Deductible ($)</label>
+                    <input type="number" id="deductible" class="form-control">
+                </div>
+                <div style="text-align: right; margin-top: 30px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreatePlanModal()" style="margin-right: 10px;">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Plan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- File Claim Modal -->
+    <div id="claimModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeClaimModal()">&times;</span>
+            <h2 style="margin-bottom: 20px;">File Insurance Claim</h2>
+            <form id="claimForm">
+                <div class="form-group">
+                    <label for="claimPolicy">Select Policy</label>
+                    <select id="claimPolicy" class="form-control" required>
+                        <option value="">Select Policy</option>
+                        <option value="health">Comprehensive Health Plus</option>
+                        <option value="auto">Premium Auto Coverage</option>
+                        <option value="life">Life Protection Plus</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="claimType">Claim Type</label>
+                    <select id="claimType" class="form-control" required>
+                        <option value="">Select Type</option>
+                        <option value="medical">Medical Expense</option>
+                        <option value="accident">Auto Accident</option>
+                        <option value="property">Property Damage</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label)) {
+                    const currentValue = parseInt(stat.textContent.replace(/,/g, ''));
+                    const change = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
+                    const newValue = Math.max(0, currentValue + change);
+                    stat.textContent = newValue.toLocaleString();
+                }
+            });
+        }
+
+        // Update stats every 30 seconds
+        setInterval(updateStats, 30000);
+
+        // Add loading states for buttons
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.textContent !== 'Cancel') {
+                    const originalText = this.textContent;
+                    this.textContent = 'Loading...';
+                    this.disabled = true;
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.disabled = false;
+                    }, 1500);
+                }
+            });
+        });
+
+        // Add progressive loading for policy cards
+        function loadPolicies() {
+            const policies = document.querySelectorAll('.policy-card');
+            policies.forEach((policy, index) => {
+                policy.style.opacity = '0';
+                policy.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    policy.style.transition = 'all 0.6s ease';
+                    policy.style.opacity = '1';
+                    policy.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        }
+
+        // Load policies when user dashboard is shown
+        document.querySelector('[onclick="showDashboard(\'user\')"]').addEventListener('click', () => {
+            setTimeout(loadPolicies, 300);
+        });
+
+        // Initialize with smooth transitions
+        document.body.style.opacity = '0';
+        window.addEventListener('load', function() {
+            document.body.style.transition = 'opacity 0.5s ease';
+            document.body.style.opacity = '1';
+        });
+    </script>
+</body>
+</html> for="planName">Plan Name</label>
+                    <input type="text" id="planName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="planType">Plan Type</label>
+                    <select id="planType" class="form-control" required>
+                        <option value="">Select Type</option>
+                        <option value="health">Health Insurance</option>
+                        <option value="auto">Auto Insurance</option>
+                        <option value="life">Life Insurance</option>
+                        <option value="home">Home Insurance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="monthlyPremium">Monthly Premium ($)</label>
+                    <input type="number" id="monthlyPremium" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="coverage">Coverage Details</label>
+                    <textarea id="coverage" class="form-control" rows="4" placeholder="Describe the coverage details..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="deductible">Deductible ($)</label>
+                    <input type="number" id="deductible" class="form-control">
+                </div>
+                <div style="text-align: right; margin-top: 30px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreatePlanModal()" style="margin-right: 10px;">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Plan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- File Claim Modal -->
+    <div id="claimModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeClaimModal()">&times;</span>
+            <h2 style="margin-bottom: 20px;">File Insurance Claim</h2>
+            <form id="claimForm">
+                <div class="form-group">
+                    <label for="claimPolicy">Select Policy</label>
+                    <select id="claimPolicy" class="form-control" required>
+                        <option value="">Select Policy</option>
+                        <option value="health">Comprehensive Health Plus</option>
+                        <option value="auto">Premium Auto Coverage</option>
+                        <option value="life">Life Protection Plus</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="claimType">Claim Type</label>
+                    <select id="claimType" class="form-control" required>
+                        <option value="">Select Type</option>
+                        <option value="medical">Medical Expense</option>
+                        <option value="accident">Auto Accident</option>
+                        <option value="property">Property Damage</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label
+                    <div id="claimModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeClaimModal()">&times;</span>
+            <h2 style="margin-bottom: 20px;">File Insurance Claim</h2>
+            <form id="claimForm">
+                <div class="form-group">
+                    <label for="claimPolicy">Select Policy</label>
+                    <select id="claimPolicy" class="form-control" required>
+                        <option value="">Select Policy</option>
+                        <option value="health">Comprehensive Health Plus</option>
+                        <option value="auto">Premium Auto Coverage</option>
+                        <option value="life">Life Protection Plus</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="claimType">Claim Type</label>
+                    <select id="claimType" class="form-control" required>
+                        <option value="">Select Type</option>
+                        <option value="medical">Medical Expense</option>
+                        <option value="accident">Auto Accident</option>
+                        <option value="property">Property Damage</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="claimAmount">Claim Amount ($)</label>
+                    <input type="number" id="claimAmount" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="incidentDate">Date of Incident</label>
+                    <input type="date" id="incidentDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="claimDescription">Description</label>
+                    <textarea id="claimDescription" class="form-control" rows="4" placeholder="Describe the incident and damages..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="claimDocuments">Upload Documents</label>
+                    <input type="file" id="claimDocuments" class="form-control" multiple>
+                </div>
+                <div style="text-align: right; margin-top: 30px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeClaimModal()" style="margin-right: 10px;">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Claim</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Previous JavaScript remains the same until the form submission handlers
+
+        // Form submission handlers
+        document.getElementById('createPlanForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const planName = document.getElementById('planName').value;
+            const planType = document.getElementById('planType').value;
+            const premium = document.getElementById('monthlyPremium').value;
+            const coverage = document.getElementById('coverage').value;
+            const deductible = document.getElementById('deductible').value;
+            
+            // Simulate plan creation
+            alert(`New plan "${planName}" created successfully!\nType: ${planType}\nPremium: ${premium}/month`);
+            closeCreatePlanModal();
+            
+            // In a real application, this would send data to the server
+            console.log('New plan created:', {
+                name: planName,
+                type: planType,
+                premium: premium,
+                coverage: coverage,
+                deductible: deductible
+            });
+        });
+
+        document.getElementById('claimForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const policy = document.getElementById('claimPolicy').value;
+            const type = document.getElementById('claimType').value;
+            const amount = document.getElementById('claimAmount').value;
+            const date = document.getElementById('incidentDate').value;
+            const description = document.getElementById('claimDescription').value;
+            
+            // Generate claim ID
+            const claimId = '#CLM-' + Math.floor(Math.random() * 900000 + 100000);
+            
+            // Simulate claim submission
+            alert(`Claim submitted successfully!\nClaim ID: ${claimId}\nAmount: ${amount}\nStatus: Under Review`);
+            closeClaimModal();
+            
+            // In a real application, this would send data to the server
+            console.log('New claim submitted:', {
+                id: claimId,
+                policy: policy,
+                type: type,
+                amount: amount,
+                date: date,
+                description: description
+            });
+        });
+
+        // Previous remaining JavaScript remains the same
+    </script>
+</body>
+</html>

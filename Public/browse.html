@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Plans - Claimer</title>
+    <link rel="stylesheet" href="../css/user.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Claimer</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li class="active"><a href="browse.html">Browse Plans</a></li>
+                    <li><a href="policies.html">My Policies</a></li>
+                    <li><a href="claims.html">My Claims</a></li>
+                    <li><a href="payment.html">Payments</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+            <button class="logout-btn">Logout</button>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Browse Insurance Plans</h1>
+                <div class="user-info">
+                    <span>Welcome, <strong>John Doe</strong></span>
+                </div>
+            </header>
+
+            <section class="plans-filter">
+                <h2>Find the perfect plan</h2>
+                <form id="filterForm">
+                    <div class="filter-group">
+                        <label for="planType">Insurance Type</label>
+                        <select id="planType">
+                            <option value="all">All Types</option>
+                            <option value="auto">Auto Insurance</option>
+                            <option value="health">Health Insurance</option>
+                            <option value="home">Home Insurance</option>
+                            <option value="life">Life Insurance</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="coverageAmount">Coverage Amount</label>
+                        <select id="coverageAmount">
+                            <option value="all">Any Amount</option>
+                            <option value="5000">Up to $5,000</option>
+                            <option value="25000">Up to $25,000</option>
+                            <option value="50000">Up to $50,000</option>
+                            <option value="100000">$100,000+</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="premiumRange">Monthly Premium</label>
+                        <select id="premiumRange">
+                            <option value="all">Any Premium</option>
+                            <option value="50">Up to $50</option>
+                            <option value="100">Up to $100</option>
+                            <option value="200">Up to $200</option>
+                            <option value="200+">$200+</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    <button type="reset" class="btn btn-tertiary">Reset</button>
+                </form>
+            </section>
+
+            <section class="plans-grid">
+                <div class="plan-card">
+                    <h3>Auto Shield Premium</h3>
+                    <p class="plan-provider">SafeDrive Insurance</p>
+                    <p class="plan-price">$45 <span>/month</span></p>
+                    <ul class="plan-features">
+                        <li>Collision coverage up to $50,000</li>
+                        <li>Comprehensive protection</li>
+                        <li>24/7 roadside assistance</li>
+                        <li>Rental car reimbursement</li>
+                    </ul>
+                    <div class="plan-actions">
+                        <button class="btn btn-primary">View Details</button>
+                        <button class="btn btn-secondary">Get Quote</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <h3>HomeSafe Complete</h3>
+                    <p class="plan-provider">Guardian Protection</p>
+                    <p class="plan-price">$85 <span>/month</span></p>
+                    <ul class="plan-features">
+                        <li>Property damage up to $250,000</li>
+                        <li>Liability coverage</li>
+                        <li>Personal property protection</li>
+                        <li>Natural disaster coverage</li>
+                    </ul>
+                    <div class="plan-actions">
+                        <button class="btn btn-primary">View Details</button>
+                        <button class="btn btn-secondary">Get Quote</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <h3>HealthPlus Basic</h3>
+                    <p class="plan-provider">WellCare Health</p>
+                    <p class="plan-price">$120 <span>/month</span></p>
+                    <ul class="plan-features">
+                        <li>Primary care visits included</li>
+                        <li>Prescription drug coverage</li>
+                        <li>Emergency services</li>
+                        <li>Annual health checkup</li>
+                    </ul>
+                    <div class="plan-actions">
+                        <button class="btn btn-primary">View Details</button>
+                        <button class="btn btn-secondary">Get Quote</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <h3>LifeGuard Standard</h3>
+                    <p class="plan-provider">FutureSecure Life</p>
+                    <p class="plan-price">$30 <span>/month</span></p>
+                    <ul class="plan-features">
+                        <li>$100,000 life coverage</li>
+                        <li>Accidental death benefit</li>
+                        <li>Term length: 20 years</li>
+                        <li>Convertible to permanent</li>
+                    </ul>
+                    <div class="plan-actions">
+                        <button class="btn btn-primary">View Details</button>
+                        <button class="btn btn-secondary">Get Quote</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <h3>Auto Shield Basic</h3>
+                    <p class="plan-provider">SafeDrive Insurance</p>
+                    <p class="plan-price">$35 <span>/month</span></p>
+                    <ul class="plan-features">
+                        <li>Collision coverage up to $25,000</li>
+                        <li>Liability protection</li>
+                        <li>Emergency roadside service</li>
+                    </ul>
+                    <div class="plan-actions">
+                        <button class="btn btn-primary">View Details</button>
+                        <button class="btn btn-secondary">Get Quote</button>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <h3>HomeSafe Standard</h3>
+                    <p class="plan-provider">Guardian Protection</p>
+                    <p class="plan-price">$65 <span>/month</span></p>
+                    <ul class="plan-features">
+                        <li>Property damage up to $150,000</li>
+                        <li>Basic liability coverage</li>
+                        <li>Personal property protection</li>
+                    </ul>
+                    <div class="plan-actions">
+                        <button class="btn btn-primary">View Details</button>
+                        <button class="btn btn-secondary">Get Quote</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Plan Details Modal -->
+    <div id="planModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modalPlanTitle">Plan Details</h2>
+            <div class="modal-body">
+                <!-- Content will be loaded dynamically -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary">Get Quote</button>
+                <button class="btn btn-primary">Purchase Plan</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/user.js"></script>
+    <script>
+        // Plan browsing functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter form submission
+            const filterForm = document.getElementById('filterForm');
+            if (filterForm) {
+                filterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    applyFilters();
+                });
+                
+                filterForm.addEventListener('reset', function() {
+                    setTimeout(applyFilters, 0);
+                });
+            }
+
+            // View Details button handlers
+            document.querySelectorAll('.plan-actions .btn-primary').forEach(button => {
+                button.addEventListener('click', function() {
+                    const planCard = this.closest('.plan-card');
+                    showPlanDetails(planCard);
+                });
+            });
+
+            // Modal close button
+            document.querySelector('.close-modal')?.addEventListener('click', function() {
+                document.getElementById('planModal').style.display = 'none';
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('planModal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        function applyFilters() {
+            const typeFilter = document.getElementById('planType').value;
+            const coverageFilter = document.getElementById('coverageAmount').value;
+            const premiumFilter = document.getElementById('premiumRange').value;
+            
+            // In a real app, this would be an API call
+            // For demo, we're just logging the filters
+            console.log('Applying filters:', {
+                type: typeFilter,
+                coverage: coverageFilter,
+                premium: premiumFilter
+            });
+            
+            // Show loading state
+            const plansGrid = document.querySelector('.plans-grid');
+            plansGrid.innerHTML = '<p class="loading">Loading plans...</p>';
+            
+            // Simulate API delay
+            setTimeout(() => {
+                // In a real app, you would render filtered plans here
+                // For the demo, we'll just reload the same plans
+                location.reload();
+            }, 1000);
+        }
+
+        function showPlanDetails(planCard) {
+            const modal = document.getElementById('planModal');
+            const title = planCard.querySelector('h3').textContent;
+            const provider = planCard.querySelector('.plan-provider').textContent;
+            const price = planCard.querySelector('.plan-price').textContent;
+            const features = planCard.querySelector('.plan-features').innerHTML;
+            
+            document.getElementById('modalPlanTitle').textContent = title;
+            
+            const modalBody = document.querySelector('.modal-body');
+            modalBody.innerHTML = `
+                <p><strong>Provider:</strong> ${provider}</p>
+                <p><strong>Price:</strong> ${price}</p>
+                <h3>Coverage Includes:</h3>
+                <ul>${features}</ul>
+                <h3>Additional Information</h3>
+                <p>This plan offers comprehensive coverage with flexible payment options. 
+                Deductible options available from $500 to $2,000.</p>
+            `;
+            
+            modal.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

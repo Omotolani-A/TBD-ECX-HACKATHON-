@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Payments - Claimer</title>
+    <link rel="stylesheet" href="../css/user.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Claimer</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="browse.html">Browse Plans</a></li>
+                    <li><a href="policies.html">My Policies</a></li>
+                    <li><a href="claims.html">My Claims</a></li>
+                    <li class="active"><a href="payment.html">Payments</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+            <button class="logout-btn">Logout</button>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Payment History</h1>
+                <div class="user-info">
+                    <span>Welcome, <strong>John Doe</strong></span>
+                </div>
+            </header>
+
+            <section class="payments-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>Policy</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PAY-2023-0012</td>
+                            <td>Auto Shield Premium</td>
+                            <td>Sep 15, 2023</td>
+                            <td>$45.00</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>PAY-2023-0008</td>
+                            <td>HomeSafe Complete</td>
+                            <td>Aug 15, 2023</td>
+                            <td>$85.00</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>PAY-2023-0004</td>
+                            <td>HealthPlus Basic</td>
+                            <td>Jul 15, 2023</td>
+                            <td>$120.00</td>
+                            <td>Completed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/user.js"></script>
+</body>
+</html>

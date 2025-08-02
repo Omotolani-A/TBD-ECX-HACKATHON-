@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Policies - Claimer</title>
+    <link rel="stylesheet" href="../css/user.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Claimer</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="browse.html">Browse Plans</a></li>
+                    <li class="active"><a href="policies.html">My Policies</a></li>
+                    <li><a href="claims.html">My Claims</a></li>
+                    <li><a href="payment.html">Payments</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+            <button class="logout-btn">Logout</button>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>My Insurance Policies</h1>
+                <div class="user-info">
+                    <span>Welcome, <strong>John Doe</strong></span>
+                </div>
+            </header>
+
+            <section class="active-policies">
+                <h2>Active Policies</h2>
+                <div class="policy-cards" id="policyCards">
+                    <!-- Policy cards will be dynamically populated here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/user.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Example dynamic policy data
+            const policies = [
+                {
+                    id: 'POL-001',
+                    name: 'Auto Shield Premium',
+                    provider: 'SafeDrive Insurance',
+                    coverage: 'Collision coverage up to $50,000',
+                    status: 'active',
+                    expiry: '2024-12-31'
+                },
+                {
+                    id: 'POL-002',
+                    name: 'HomeSafe Complete',
+                    provider: 'Guardian Protection',
+                    coverage: 'Property damage up to $250,000',
+                    status: 'active',
+                    expiry: '2025-06-30'
+                }
+            ];
+
+            const policyCardsContainer = document.getElementById('policyCards');
+            policies.forEach(policy => {
+                const card = document.createElement('div');
+                card.className = 'policy-card';
+                card.innerHTML = `
+                    <h3>${policy.name}</h3>
+                    <p><strong>Provider:</strong> ${policy.provider}</p>
+                    <p>${policy.coverage}</p>
+                    <p><strong>Status:</strong> <span class="status-badge active">${policy.status}</span></p>
+                    <p><strong>Expiry Date:</strong> ${policy.expiry}</p>
+                    <div class="policy-actions">
+                        <button class="btn btn-primary">View Details</button>
+                        <button class="btn btn-secondary">Make Payment</button>
+                    </div>
+                `;
+                policyCardsContainer.appendChild(card);
+            });
+        });
+    </script>
+</body>
+</html>

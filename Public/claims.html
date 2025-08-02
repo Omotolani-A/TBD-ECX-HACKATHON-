@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Claims - Claimer</title>
+    <link rel="stylesheet" href="../css/user.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Claimer</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="browse.html">Browse Plans</a></li>
+                    <li><a href="policies.html">My Policies</a></li>
+                    <li class="active"><a href="claims.html">My Claims</a></li>
+                    <li><a href="payment.html">Payments</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+            <button class="logout-btn">Logout</button>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>My Insurance Claims</h1>
+                <div class="user-info">
+                    <span>Welcome, <strong>John Doe</strong></span>
+                </div>
+            </header>
+
+            <div class="claims-actions">
+                <button id="newClaimBtn" class="btn btn-primary">File New Claim</button>
+                <div class="claims-filter">
+                    <label for="claimStatus">Filter by status:</label>
+                    <select id="claimStatus">
+                        <option value="all">All Claims</option>
+                        <option value="submitted">Submitted</option>
+                        <option value="under_review">Under Review</option>
+                        <option value="approved">Approved</option>
+                        <option value="denied">Denied</option>
+                        <option value="paid">Paid</option>
+                    </select>
+                </div>
+            </div>
+
+            <section class="claims-list">
+                <div class="claims-table-header">
+                    <div>Claim ID</div>
+                    <div>Policy</div>
+                    <div>Date Filed</div>
+                    <div>Amount</div>
+                    <div>Status</div>
+                    <div>Actions</div>
+                </div>
+
+                <div class="claim-item">
+                    <div class="claim-id">CLAIM-2023-0015</div>
+                    <div class="claim-policy">Auto Shield Premium</div>
+                    <div class="claim-date">Oct 15, 2023</div>
+                    <div class="claim-amount">$2,500.00</div>
+                    <div class="claim-status"><span class="status-badge under_review">Under Review</span></div>
+                    <div class="claim-actions">
+                        <button class="btn-icon view-claim" title="View Details">
+                            <svg viewBox="0 0 24 24" width="18" height="18">
+                                <path fill="currentColor" d="M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M12,4.5C17,4.5 21.27,7.61 23,12C21.27,16.39 17,19.5 12,19.5C7,19.5 2.73,16.39 1,12C2.73,7.61 7,4.5 12,4.5M3.18,12C4.83,15.36 8.24,17.5 12,17.5C15.76,17.5 19.17,15.36 20.82,12C19.17,8.64 15.76,6.5 12,6.5C8.24,6.5 4.83,8.64 3.18,12Z"/>
+                            </svg>
+                        </button>
+                        <button class="btn-icon upload-doc" title="Upload Document">
+                            <svg viewBox="0 0 24 24" width="18" height="18">
+                                <path fill="currentColor" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z M8,15V13H16V15H8M8,11V9H16V11H8M8,19V17H13V19H8Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="claim-item">
+                    <div class="claim-id">CLAIM-2023-0008</div>
+                    <div class="claim-policy">HomeSafe Complete</div>
+                    <div class="claim-date">Aug 3, 2023</div>
+                    <div class="claim-amount">$8,750.00</div>
+                    <div class="claim-status"><span class="status-badge paid">Paid</span></div>
+                    <div class="claim-actions">
+                        <button class="btn-icon view-claim" title="View Details">
+                            <svg viewBox="0 0 24 24" width="18" height="18">
+                                <path fill="currentColor" d="M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M12,4.5C17,4.5 21.27,7.61 23,12C21.27,16.39 17,19.5 12,19.5C7,19.5 2.73,16.39 1,12C2.73,7.61 7,4.5 12,4.5M3.18,12C4.83,15.36 8.24,17.5 12,17.5C15.76,17.5 19.17,15.36 20.82,12C19.17,8.64 15.76,6.5 12,6.5C8.24,6.5 4.83,8.64 3.18,12Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="claim-item">
+                    <div class="claim-id">CLAIM-2022-0042</div>
+                    <div class="claim-policy">Auto Shield Basic</div>
+                    <div class="claim-date">Dec 12, 2022</div>
+                    <div class="claim-amount">$1,200.00</div>
+                    <div class="claim-status"><span class="status-badge denied">Denied</span></div>
+                    <div class="claim-actions">
+                        <button class="btn-icon view-claim" title="View Details">
+                            <svg viewBox="0 0 24 24" width="18" height="18">
+                                <path fill="currentColor" d="M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M12,4.5C17,4.5 21.27,7.61 23,12C21.27,16.39 17,19.5 12,19.5C7,19.5 2.73,16.39 1,12C2.73,7.61 7,4.5 12,4.5M3.18,12C4.83,15.36 8.24,17.5 12,17.5C15.76,17.5 19.17,15.36 20.82,12C19.17,8.64 15.76,6.5 12,6.5C8.24,6.5 4.83,8.64 3.18,12Z"/>
+                            </svg>
+                        </button>
+                        <button class="btn-icon appeal-claim" title="Appeal Decision">
+                            <svg viewBox="0 0 24 24" width="18" height="18">
+                                <path fill="currentColor" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M16.2,11.8L10,17.3L7.8,15.3L9,14L10,15L14.8,10.2L16.2,11.8Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- New Claim Modal -->
+    <div id="newClaimModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>File New Insurance Claim</h2>
+            <form id="claimForm" class="claim-form">
+                <div class="form-group">
+                    <label for="claimPolicy">Select Policy</label>
+                    <select id="claimPolicy" required>
+                        <option value="">-- Select Policy --</option>
+                        <option value="policy1">Auto Shield Premium (Active)</option>
+                        <option value="policy2">HomeSafe Complete (Active)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="incidentDate">Incident Date</label>
+                    <input type="date" id="incidentDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="claimAmount">Claim Amount ($)</label>
+                    <input type="number" id="claimAmount" min="0" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="claimDescription">Description of Incident</label>
+                    <textarea id="claimDescription" rows="5" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Supporting Documents</label>
+                    <div class="file-upload">
+                        <input type="file" id="claimDocuments" multiple>
+                        <label for="claimDocuments" class="btn btn-secondary">Choose Files</label>
+                        <span id="fileNames">No files selected</span>
+                    </div>
+                    <p class="file-hint">Upload photos, receipts, or police reports (PDF, JPG, PNG up to 10MB)</p>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-tertiary cancel-claim">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Claim</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Claim Details Modal -->
+    <div id="claimDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="claimModalTitle">Claim Details</h2>
+            <div class="claim-details">
+                <div class="detail-row">
+                    <span class="detail-label">Claim ID:</span>
+                    <span class="detail-value" id="detailClaimId">CLAIM-2023-0015</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Policy:</span>
+                    <span class="detail-value" id="detailPolicy">Auto Shield Premium</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Date Filed:</span>
+                    <span class="detail-value" id="detailDate">October 15, 2023</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Incident Date:</span>
+                    <span class="detail-value" id="detailIncidentDate">October 12, 2023</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Claim Amount:</span>
+                    <span class="detail-value" id="detailAmount">$2,500.00</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Status:</span>
+                    <span class="detail-value"><span class="status-badge under_review" id="detailStatus">Under Review</span></span>
+                </div>
+                <div class="detail-row full-width">
+                    <span class="detail-label">Description:</span>
+                    <p class="detail-value" id="detailDescription">Vehicle was rear-ended while stopped at a red light. Other driver admitted fault and police report was filed. Estimated repair costs from certified shop are $2,500.</p>
+                </div>
+
+                <div class="documents-section">
+                    <h3>Submitted Documents</h3>
+                    <div class="document-list" id="documentList">
+                        <div class="document-item">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="currentColor" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                            </svg>
+                            <span>Police_Report_10122023.pdf</span>
+                            <button class="btn-icon download-doc" title="Download">
+                                <svg viewBox="0 0 24 24" width="18" height="18">
+                                    <path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="document-item">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="currentColor" d="M8.5,13.5L11,16.5L14.5,12L19,18H5M21,19V5C21,3.89 20.1,3 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19Z"/>
+                            </svg>
+                            <span>Damage_Photos.zip</span>
+                            <button class="btn-icon download-doc" title="Download">
+                                <svg viewBox="0 0 24 24" width="18" height="18">
+                                    <path fill="currentColor" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="status-updates">
+                    <h3>Claim Status Updates</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">Oct 15, 2023</div>
+                            <div class="timeline-content">
+                                <strong>Claim Submitted</strong>
+                                <p>Your claim has been received and is being processed.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">Oct 16, 2023</div>
+                            <div class="timeline-content">
+                                <strong>Under Review</strong>
+                                <p>Your claim documents are being reviewed by our team.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/user.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // New Claim Button
+            document.getElementById('newClaimBtn')?.addEventListener('click', function() {
+                document.getElementById('newClaimModal').style.display = 'block';
+            });
+
+            // View Claim Buttons
+            document.querySelectorAll('.view-claim').forEach(button => {
+                button.addEventListener('click', function() {
+                    const claimItem = this.closest('.claim-item');
+                    showClaimDetails(claimItem);
+                });
+            });
+
+            // Upload Document Buttons
+            document.querySelectorAll('.upload-doc').forEach(button => {
+                button.addEventListener('click', function() {
+                    alert('Document upload functionality would open here');
+                });
+            });
+
+            // Appeal Claim Buttons
+            document.querySelectorAll('.appeal-claim').forEach(button => {
+                button.addEventListener('click', function() {
+                    alert('Appeal process would start here');
+                });
+            });
+
+            // Close Modals
+            document.querySelectorAll('.close-modal').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+
+            // Cancel Claim Button
+            document.querySelector('.cancel-claim')?.addEventListener('click', function() {
+                document.getElementById('newClaimModal').style.display = 'none';
+            });
+
+            // File Input Display
+            document.getElementById('claimDocuments')?.addEventListener('change', function() {
+                const files = this.files;
+                const fileNames = document.getElementById('fileNames');
+                
+                if (files.length > 0) {
+                    let names = '';
+                    for (let i = 0; i < files.length; i++) {
+                        names += files[i].name;
+                        if (i < files.length - 1) names += ', ';
+                    }
+                    fileNames.textContent = names;
+                } else {
+                    fileNames.textContent = 'No files selected';
+                }
+            });
+
+            // Filter Claims
+            document.getElementById('claimStatus')?.addEventListener('change', function() {
+                const status = this.value;
+                const claims = document.querySelectorAll('.claim-item');
+                
+                claims.forEach(claim => {
+                    if (status === 'all') {
+                        claim.style.display = 'grid';
+                    } else {
+                        const claimStatus = claim.querySelector('.claim-status span').classList[1];
+                        if (claimStatus === status) {
+                            claim.style.display = 'grid';
+                        } else {
+                            claim.style.display = 'none';
+                        }
+                    }
+                });
+            });
+
+            // Submit Claim Form
+            document.getElementById('claimForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Claim submitted successfully!');
+                document.getElementById('newClaimModal').style.display = 'none';
+                // In a real app, this would submit to the backend
+            });
+
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
+            });
+        });
+
+        function showClaimDetails(claimItem) {
+            const claimId = claimItem.querySelector('.claim-id').textContent;
+            const policy = claimItem.querySelector('.claim-policy').textContent;
+            const date = claimItem.querySelector('.claim-date').textContent;
+            const amount = claimItem.querySelector('.claim-amount').textContent;
+            const status = claimItem.querySelector('.claim-status span').classList[1];
+            
+            // Set claim details in modal
+            document.getElementById('detailClaimId').textContent = claimId;
+            document.getElementById('detailPolicy').textContent = policy;
+            document.getElementById('detailDate').textContent = date;
+            document.getElementById('detailAmount').textContent = amount;
+            
+            const statusElement = document.getElementById('detailStatus');
+            statusElement.textContent = status.replace('_', ' ');
+            statusElement.className = 'status-badge ' + status;
+            
+            // In a real app, you would fetch these details from an API
+            document.getElementById('detailIncidentDate').textContent = 'October 12, 2023';
+            document.getElementById('detailDescription').textContent = 
+                'Vehicle was rear-ended while stopped at a red light. Other driver admitted fault and police report was filed. Estimated repair costs from certified shop are $2,500.';
+            
+            document.getElementById('claimDetailsModal').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

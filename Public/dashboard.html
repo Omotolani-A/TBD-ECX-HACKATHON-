@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - Claimer</title>
+    <link rel="stylesheet" href="../css/user.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Claimer</div>
+            <nav>
+                <ul>
+                    <li class="active"><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="browse.html">Browse Plans</a></li>
+                    <li><a href="policies.html">My Policies</a></li>
+                    <li><a href="claims.html">My Claims</a></li>
+                    <li><a href="payment.html">Payments</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+            <button class="logout-btn">Logout</button>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>My Dashboard</h1>
+                <div class="user-info">
+                    <span>Welcome, <strong>John Doe</strong></span>
+                </div>
+            </header>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Active Policies</h3>
+                    <p class="stat-value">2</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Pending Claims</h3>
+                    <p class="stat-value">1</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Upcoming Payment</h3>
+                    <p class="stat-value">$45.00</p>
+                    <p class="stat-note">Due in 5 days</p>
+                </div>
+            </div>
+
+            <section class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="action-buttons">
+                    <button class="btn btn-primary">File a Claim</button>
+                    <button class="btn btn-secondary">Browse Plans</button>
+                    <button class="btn btn-tertiary">Make Payment</button>
+                </div>
+            </section>
+
+            <section class="active-policies">
+                <h2>Active Policies</h2>
+                <div class="policy-cards">
+                    <!-- Data will be populated by JavaScript -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/user.js"></script>
+</body>
+</html>

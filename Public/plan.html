@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Insurance Plans - Claimer</title>
+    <link rel="stylesheet" href="../css/insurer.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Claimer</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li class="active"><a href="plan.html">Insurance Plans</a></li>
+                    <li><a href="claims.html">Claims</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+            <button class="logout-btn">Logout</button>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Insurance Plans</h1>
+                <div class="user-info">
+                    <span>Welcome, <strong>Acme Insurance</strong></span>
+                </div>
+            </header>
+
+            <section class="plans-filter">
+                <h2>Manage Plans</h2>
+                <button class="btn btn-primary" id="add-plan-btn">Add New Plan</button>
+            </section>
+
+            <section class="plans-grid" id="plans-grid">
+                <!-- Plans will be dynamically populated here -->
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/insurer.js"></script>
+</body>
+</html>
