@@ -8,20 +8,31 @@ document.addEventListener('DOMContentLoaded', function() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
-            // Simulate authentication
-            if (email && password) {
-                // In a real app, this would be an API call
-                localStorage.setItem('authToken', 'simulated-token');
-                localStorage.setItem('userRole', email.includes('insurer') ? 'insurer' : 'user');
-                
-                // Redirect based on user role
-                const role = email.includes('insurer') ? 'insurer' : 'user';
-                window.location.href = `../${role}/dashboard.html`;
-            } else {
-                alert('Please enter both email and password');
-            }
-        });
+          fetch('/api/users/login', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+})
+.then(res => res.json())
+.then(data => {
+    if (data.token) {
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('userRole', data.user.role || 'user');
+
+        // Redirect based on user role
+        const role = data.user.role === 'insurer' ? 'insurer' : 'user';
+        window.location.href = `../${role}/dashboard.html`;
+    } else {
+        alert(data.message || 'Login failed');
     }
+})
+.catch(err => {
+    console.error(err);
+    alert('Server error. Please try again.');
+});
+
     
     // Logout functionality
     const logoutButtons = document.querySelectorAll('.logout-btn');
@@ -49,4 +60,5 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = `../${userRole}/dashboard.html`;
         }
     }
+
 });
