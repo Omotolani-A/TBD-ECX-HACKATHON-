@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+const baseURL = 'https://upgraded-computing-machine-q76p97gxq56g3495w-5000.app.github.dev';
+
     // LOGIN FUNCTIONALITY
     const loginForm = document.getElementById('loginForm');
 
@@ -9,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            fetch('/api/users/login', {
+            fetch( baseURL + '/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -58,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            fetch('/api/users/register', {
+            fetch( baseURL + '/api/users/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -110,3 +113,4 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 });
+
